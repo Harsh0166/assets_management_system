@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+
 /**
  *
  * @author ACER
@@ -13,10 +14,40 @@ public class home extends javax.swing.JFrame {
      * Creates new form home
      */
     public home() {
-        initComponents();
+        initComponents();{
+        tabPanel.setUI(null); // This hides the tab headers
     }
-       public home(String role) {
-        initComponents();
+        
+        
+    btnDashboard.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tabPanel.setSelectedIndex(0); // Dashboard tab
+    }
+});
+
+    btnUser.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tabPanel.setSelectedIndex(1); // User Management tab
+    }
+});
+
+     btnAssetsMan.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tabPanel.setSelectedIndex(2); // User Management tab
+    }
+});
+      btnAssetsHis.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tabPanel.setSelectedIndex(3); // User Management tab
+    }
+});
+       btnAssetsSta.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tabPanel.setSelectedIndex(4); // User Management tab
+    }
+});
+
+
     }
 
     /**
@@ -28,21 +59,362 @@ public class home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JButton();
+        btnUser = new javax.swing.JButton();
+        btnAssetsMan = new javax.swing.JButton();
+        btnAssetsHis = new javax.swing.JButton();
+        btnAssetsSta = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        mainpanel = new javax.swing.JPanel();
+        tabPanel = new javax.swing.JTabbedPane();
+        dashboardpanel = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        userpanel = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        assetspanel = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        historypanel = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        statuspanel = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1366, 768));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(78, 144, 226));
+        jPanel1.setPreferredSize(new java.awt.Dimension(250, 768));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Assets Management");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Users.png"))); // NOI18N
+        jLabel2.setText("Admin");
+
+        btnDashboard.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDashboard.setText("Dashboard");
+
+        btnUser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUser.setText("User Management");
+        btnUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserActionPerformed(evt);
+            }
+        });
+
+        btnAssetsMan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAssetsMan.setText("Assets Management");
+
+        btnAssetsHis.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAssetsHis.setText("Assets History");
+
+        btnAssetsSta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAssetsSta.setText("Assets Status");
+
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnLogout.setText("Logout");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnAssetsMan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAssetsHis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAssetsSta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(btnDashboard)
+                .addGap(18, 18, 18)
+                .addComponent(btnUser)
+                .addGap(18, 18, 18)
+                .addComponent(btnAssetsMan)
+                .addGap(18, 18, 18)
+                .addComponent(btnAssetsHis)
+                .addGap(18, 18, 18)
+                .addComponent(btnAssetsSta)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogout)
+                .addContainerGap(356, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        mainpanel.setPreferredSize(new java.awt.Dimension(1120, 768));
+        mainpanel.setLayout(new java.awt.CardLayout());
+
+        dashboardpanel.setBackground(new java.awt.Color(255, 255, 255));
+        dashboardpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel6.setMinimumSize(new java.awt.Dimension(250, 100));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel3.setText("124");
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel11.setText("Total Users");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabel11)))
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        dashboardpanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(250, 100));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel8.setText("124");
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel12.setText("Total Assets");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel12)))
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        dashboardpanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
+
+        jPanel8.setPreferredSize(new java.awt.Dimension(250, 100));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel9.setText("124");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel13.setText("Assigned Assets");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel13)))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        dashboardpanel.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, -1, -1));
+
+        jPanel9.setPreferredSize(new java.awt.Dimension(250, 100));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel10.setText("124");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel14.setText("Maintenance");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel10))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jLabel14)))
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        dashboardpanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, -1, -1));
+
+        tabPanel.addTab("Dashboard", dashboardpanel);
+
+        jLabel4.setText("user");
+
+        javax.swing.GroupLayout userpanelLayout = new javax.swing.GroupLayout(userpanel);
+        userpanel.setLayout(userpanelLayout);
+        userpanelLayout.setHorizontalGroup(
+            userpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userpanelLayout.createSequentialGroup()
+                .addGap(408, 408, 408)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(675, Short.MAX_VALUE))
+        );
+        userpanelLayout.setVerticalGroup(
+            userpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userpanelLayout.createSequentialGroup()
+                .addGap(197, 197, 197)
+                .addComponent(jLabel4)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        tabPanel.addTab("User Management", userpanel);
+
+        jLabel5.setText("manage");
+
+        javax.swing.GroupLayout assetspanelLayout = new javax.swing.GroupLayout(assetspanel);
+        assetspanel.setLayout(assetspanelLayout);
+        assetspanelLayout.setHorizontalGroup(
+            assetspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(assetspanelLayout.createSequentialGroup()
+                .addGap(493, 493, 493)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(538, Short.MAX_VALUE))
+        );
+        assetspanelLayout.setVerticalGroup(
+            assetspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(assetspanelLayout.createSequentialGroup()
+                .addGap(156, 156, 156)
+                .addComponent(jLabel5)
+                .addContainerGap(561, Short.MAX_VALUE))
+        );
+
+        tabPanel.addTab("Assets Management", assetspanel);
+
+        jLabel6.setText("history");
+
+        javax.swing.GroupLayout historypanelLayout = new javax.swing.GroupLayout(historypanel);
+        historypanel.setLayout(historypanelLayout);
+        historypanelLayout.setHorizontalGroup(
+            historypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(historypanelLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(693, Short.MAX_VALUE))
+        );
+        historypanelLayout.setVerticalGroup(
+            historypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(historypanelLayout.createSequentialGroup()
+                .addGap(172, 172, 172)
+                .addComponent(jLabel6)
+                .addContainerGap(545, Short.MAX_VALUE))
+        );
+
+        tabPanel.addTab("Assets History", historypanel);
+
+        jLabel7.setText("status");
+
+        javax.swing.GroupLayout statuspanelLayout = new javax.swing.GroupLayout(statuspanel);
+        statuspanel.setLayout(statuspanelLayout);
+        statuspanelLayout.setHorizontalGroup(
+            statuspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statuspanelLayout.createSequentialGroup()
+                .addGap(338, 338, 338)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(745, Short.MAX_VALUE))
+        );
+        statuspanelLayout.setVerticalGroup(
+            statuspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statuspanelLayout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addComponent(jLabel7)
+                .addContainerGap(580, Short.MAX_VALUE))
+        );
+
+        tabPanel.addTab("Assets Status", statuspanel);
+
+        mainpanel.add(tabPanel, "card2");
+
+        getContentPane().add(mainpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 1120, 768));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -80,5 +452,37 @@ public class home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel assetspanel;
+    private javax.swing.JButton btnAssetsHis;
+    private javax.swing.JButton btnAssetsMan;
+    private javax.swing.JButton btnAssetsSta;
+    private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnUser;
+    private javax.swing.JPanel dashboardpanel;
+    private javax.swing.JPanel historypanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel mainpanel;
+    private javax.swing.JPanel statuspanel;
+    private javax.swing.JTabbedPane tabPanel;
+    private javax.swing.JPanel userpanel;
     // End of variables declaration//GEN-END:variables
 }
