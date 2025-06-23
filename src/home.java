@@ -90,6 +90,11 @@ public class home extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
         assetspanel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         historypanel = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         statuspanel = new javax.swing.JPanel();
@@ -356,17 +361,32 @@ public class home extends javax.swing.JFrame {
         tabPanel.addTab("User Management", userpanel);
 
         assetspanel.setBackground(new java.awt.Color(255, 255, 255));
+        assetspanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout assetspanelLayout = new javax.swing.GroupLayout(assetspanel);
-        assetspanel.setLayout(assetspanelLayout);
-        assetspanelLayout.setHorizontalGroup(
-            assetspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1120, Short.MAX_VALUE)
-        );
-        assetspanelLayout.setVerticalGroup(
-            assetspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 733, Short.MAX_VALUE)
-        );
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setText("Add Assets");
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton2.setText("Edit Assets");
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 6, -1, -1));
+
+        assetspanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 22, -1, -1));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Assets Type", "Serial No.", "Purchase Date", "Status", "Current Owner", "Description"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        assetspanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 78, 1072, 628));
 
         tabPanel.addTab("Assets Management", assetspanel);
 
@@ -470,6 +490,8 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JButton btnUser;
     private javax.swing.JPanel dashboardpanel;
     private javax.swing.JPanel historypanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -483,11 +505,14 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainpanel;
     private javax.swing.JPanel statuspanel;
     private javax.swing.JTabbedPane tabPanel;

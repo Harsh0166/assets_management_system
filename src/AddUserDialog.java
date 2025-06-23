@@ -38,9 +38,9 @@ public class AddUserDialog extends javax.swing.JDialog {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblPhone = new javax.swing.JLabel();
-        txtPhone = new javax.swing.JTextField();
-        btnSave = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
+        jTextField4 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -58,6 +58,7 @@ public class AddUserDialog extends javax.swing.JDialog {
         lblName.setText("Name");
         jPanel1.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
+        txtName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtName.setText("jTextField1");
         jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 550, 40));
 
@@ -65,6 +66,7 @@ public class AddUserDialog extends javax.swing.JDialog {
         lblDept.setText("Department");
         jPanel1.add(lblDept, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
+        txtDept.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDept.setText("jTextField2");
         jPanel1.add(txtDept, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 550, 40));
 
@@ -72,6 +74,7 @@ public class AddUserDialog extends javax.swing.JDialog {
         lblEmail.setText("Email");
         jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
 
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtEmail.setText("jTextField3");
         txtEmail.setPreferredSize(new java.awt.Dimension(500, 140));
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 550, 40));
@@ -80,31 +83,32 @@ public class AddUserDialog extends javax.swing.JDialog {
         lblPhone.setText("Phone");
         jPanel1.add(lblPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
 
-        txtPhone.setText("jTextField4");
-        txtPhone.setPreferredSize(new java.awt.Dimension(500, 140));
-        txtPhone.addActionListener(new java.awt.event.ActionListener() {
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField4.setText("jTextField4");
+        jTextField4.setPreferredSize(new java.awt.Dimension(500, 140));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPhoneActionPerformed(evt);
+                jTextField4ActionPerformed(evt);
             }
         });
-        jPanel1.add(txtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 550, 40));
+        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 550, 40));
 
-        btnSave.setBackground(new java.awt.Color(51, 204, 0));
-        btnSave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnSave.setForeground(new java.awt.Color(255, 255, 255));
-        btnSave.setText("Save");
-        jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
+        jButton2.setBackground(new java.awt.Color(51, 204, 0));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Save");
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
 
-        btnCancel.setBackground(new java.awt.Color(255, 0, 0));
-        btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setBackground(new java.awt.Color(255, 0, 0));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Cancel");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 390, -1, -1));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 390, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,13 +124,13 @@ public class AddUserDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneActionPerformed
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPhoneActionPerformed
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,12 +175,13 @@ public class AddUserDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnSave;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblDept;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;
@@ -184,6 +189,5 @@ public class AddUserDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtDept;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }
