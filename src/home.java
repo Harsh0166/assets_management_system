@@ -1,22 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
 
-/**
- *
- * @author ACER
- */
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import dao.DBConnection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class home extends javax.swing.JFrame {
 
-    /**
-     * Creates new form home
-     */
+  
     public home() {
-        initComponents();{
+        initComponents();
+        setLocationRelativeTo(null);
+
+        
+        loadusertable();
         tabPanel.setUI(null); // This hides the tab headers
-    }
+        btnAdduser.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+        AddUserDialog dialog = new AddUserDialog(home.this, true);
+        dialog.setVisible(true);
+        loadusertable(); // Refresh user table after dialog closes
+        }});
+    
         
         
     btnDashboard.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +93,6 @@ public class home extends javax.swing.JFrame {
         userpanel = new javax.swing.JPanel();
         topBtnPanel = new javax.swing.JPanel();
         btnAdduser = new javax.swing.JButton();
-        btnEdituser = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
         assetspanel = new javax.swing.JPanel();
@@ -96,7 +102,8 @@ public class home extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         historypanel = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         statuspanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -106,17 +113,21 @@ public class home extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(78, 144, 226));
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 768));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Assets Management");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 22, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Users.png"))); // NOI18N
         jLabel2.setText("Admin");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 72, -1, -1));
 
         btnDashboard.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDashboard.setText("Dashboard");
+        jPanel1.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 202, -1));
 
         btnUser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUser.setText("User Management");
@@ -125,63 +136,23 @@ public class home extends javax.swing.JFrame {
                 btnUserActionPerformed(evt);
             }
         });
+        jPanel1.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 202, -1));
 
         btnAssetsMan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAssetsMan.setText("Assets Management");
+        jPanel1.add(btnAssetsMan, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
         btnAssetsHis.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAssetsHis.setText("Assets History");
+        jPanel1.add(btnAssetsHis, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 202, -1));
 
         btnAssetsSta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAssetsSta.setText("Assets Status");
+        jPanel1.add(btnAssetsSta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 202, -1));
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLogout.setText("Logout");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAssetsMan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAssetsHis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAssetsSta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(btnDashboard)
-                .addGap(18, 18, 18)
-                .addComponent(btnUser)
-                .addGap(18, 18, 18)
-                .addComponent(btnAssetsMan)
-                .addGap(18, 18, 18)
-                .addComponent(btnAssetsHis)
-                .addGap(18, 18, 18)
-                .addComponent(btnAssetsSta)
-                .addGap(18, 18, 18)
-                .addComponent(btnLogout)
-                .addContainerGap(356, Short.MAX_VALUE))
-        );
+        jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 202, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -335,16 +306,10 @@ public class home extends javax.swing.JFrame {
         topBtnPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         btnAdduser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnAdduser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_user.png"))); // NOI18N
         btnAdduser.setText("Add User");
         topBtnPanel.add(btnAdduser);
 
-        btnEdituser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnEdituser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edit_icon.png"))); // NOI18N
-        btnEdituser.setText("Edit User");
-        topBtnPanel.add(btnEdituser);
-
-        userpanel.add(topBtnPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 290, 50));
+        userpanel.add(topBtnPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 130, 50));
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -381,7 +346,7 @@ public class home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Assets Type", "Serial No.", "Purchase Date", "Status", "Current Owner", "Description"
+                "Assets Id", "Assets Type", "Serial No.", "Purchase Date", "Status", "Current Owner", "Description"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -390,23 +355,31 @@ public class home extends javax.swing.JFrame {
 
         tabPanel.addTab("Assets Management", assetspanel);
 
-        jLabel6.setText("history");
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Assets Id", "Employee Id", "Action", "Date", "Note"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
 
         javax.swing.GroupLayout historypanelLayout = new javax.swing.GroupLayout(historypanel);
         historypanel.setLayout(historypanelLayout);
         historypanelLayout.setHorizontalGroup(
             historypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(historypanelLayout.createSequentialGroup()
-                .addGap(390, 390, 390)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(693, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         historypanelLayout.setVerticalGroup(
             historypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(historypanelLayout.createSequentialGroup()
-                .addGap(172, 172, 172)
-                .addComponent(jLabel6)
-                .addContainerGap(545, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabPanel.addTab("Assets History", historypanel);
@@ -443,9 +416,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUserActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -477,6 +448,35 @@ public class home extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void loadusertable(){
+        try{
+            Connection conn = DBConnection.getConnection();
+            String sql = "SELECT user_id, name, department, email, phone, status FROM user_detail";
+            
+            
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+            model.setRowCount(0); // clear old data
+
+            while (rs.next()) {
+                int id = rs.getInt("user_id");
+                String name = rs.getString("name");
+                String dept = rs.getString("department");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                String status = rs.getString("status");
+                model.addRow(new Object[]{id,name, dept, email,phone,status});
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel assetspanel;
@@ -485,7 +485,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JButton btnAssetsMan;
     private javax.swing.JButton btnAssetsSta;
     private javax.swing.JButton btnDashboard;
-    private javax.swing.JButton btnEdituser;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUser;
     private javax.swing.JPanel dashboardpanel;
@@ -500,7 +499,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -512,7 +510,9 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JPanel mainpanel;
     private javax.swing.JPanel statuspanel;
     private javax.swing.JTabbedPane tabPanel;
