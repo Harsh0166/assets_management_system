@@ -148,9 +148,9 @@ public class AddUserDialog extends javax.swing.JDialog {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
         String password = txtPassword.getText();
-        String status = (String) comboBoxStatus.getSelectedItem().toString();
+        String status = comboBoxStatus.getSelectedItem().toString();
         
-        if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+        if (name.isEmpty() || dept.isEmpty() || password.isEmpty() || email.isEmpty() || phone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "All fields are required.");
             return;
         }
@@ -158,15 +158,15 @@ public class AddUserDialog extends javax.swing.JDialog {
         try{
             Connection conn = DBConnection.getConnection();
             String sql = "INSERT INTO user_detail (name,department,email,phone,password,status) VALUES(?, ? ,?,?,?,?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,name);
-            ps.setString(2,dept);
-            ps.setString(3,email);
-            ps.setString(4,phone);
-            ps.setString(5,password);
-            ps.setString(6,status);
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1,name);
+            pst.setString(2,dept);
+            pst.setString(3,email);
+            pst.setString(4,phone);
+            pst.setString(5,password);
+            pst.setString(6,status);
             
-            int rows = ps.executeUpdate();
+            int rows = pst.executeUpdate();
 
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "User added successfully!");
