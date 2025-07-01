@@ -16,6 +16,7 @@ public class home extends javax.swing.JFrame {
 
         tabPanel.setUI(null); // This hides the tab headers
         loadusertable();
+        loadassetstable();
         
         btnAdduser.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
@@ -25,6 +26,15 @@ public class home extends javax.swing.JFrame {
             }
         }
     );
+        btnAddassets.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+            AddAssetsDialog dialog = new AddAssetsDialog(home.this, true);
+            dialog.setVisible(true);
+            loadassetstable(); // Refresh user table after dialog closes
+            }
+        }
+    );
+
     
         
         
@@ -94,10 +104,9 @@ public class home extends javax.swing.JFrame {
         userTable = new javax.swing.JTable();
         assetspanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAddassets = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        assetsTable = new javax.swing.JTable();
         historypanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -328,29 +337,27 @@ public class home extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("Add Assets");
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        btnAddassets.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAddassets.setText("Add Assets");
+        jPanel2.add(btnAddassets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("Edit Assets");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 6, -1, -1));
+        assetspanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 10, 150, 50));
 
-        assetspanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 22, -1, -1));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        assetsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Assets Id", "Assets Type", "Serial No.", "Purchase Date", "Status", "Current Owner", "Description"
+                "Assets Id", "Assets Type", "Serial No.", "Purchase Date", "Action", "Current Owner", "Description"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(assetsTable);
 
         assetspanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 78, 1072, 628));
 
         tabPanel.addTab("Assets Management", assetspanel);
+
+        historypanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -362,22 +369,7 @@ public class home extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable2);
 
-        javax.swing.GroupLayout historypanelLayout = new javax.swing.GroupLayout(historypanel);
-        historypanel.setLayout(historypanelLayout);
-        historypanelLayout.setHorizontalGroup(
-            historypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(historypanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        historypanelLayout.setVerticalGroup(
-            historypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(historypanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        historypanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1078, 700));
 
         tabPanel.addTab("Assets History", historypanel);
 
@@ -432,16 +424,16 @@ public class home extends javax.swing.JFrame {
             ResultSet rs = ps.executeQuery();
             
             DefaultTableModel model = (DefaultTableModel) userTable.getModel();
-            model.setRowCount(0); // clear old data
+            model.setRowCount(0);
 
             while (rs.next()) {
-                int id = rs.getInt("user_id");
+                int user_id = rs.getInt("user_id");
                 String name = rs.getString("name");
                 String dept = rs.getString("department");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 String status = rs.getString("status");
-                model.addRow(new Object[]{id,name, dept, email,phone,status});
+                model.addRow(new Object[]{user_id,name, dept, email,phone,status});
             }
         }
         catch(Exception e){
@@ -449,10 +441,39 @@ public class home extends javax.swing.JFrame {
         }
     }
 
+    public void loadassetstable(){
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "SELECT assets_id, assets_type, serial_no,purchase_date,action,current_owner,description FROM assets_detail";
+            
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) assetsTable.getModel();
+            model.setRowCount(0);
+            
+            while(rs.next()){
+                int assets_id = rs.getInt("assets_id");
+                String assets_type = rs.getString("assets_type");
+                String serial_no = rs.getString("serial_no");
+                String purchase_date = rs.getString("purchase_date");
+                String action = rs.getString("action");
+                String current_owner = rs.getString("current_owner");
+                String description = rs.getString("description");
+                model.addRow(new Object[] {assets_id, assets_type,serial_no,purchase_date,action,current_owner,description});
+            }
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable assetsTable;
     private javax.swing.JPanel assetspanel;
+    private javax.swing.JButton btnAddassets;
     private javax.swing.JButton btnAdduser;
     private javax.swing.JButton btnAssetsHis;
     private javax.swing.JButton btnAssetsMan;
@@ -462,8 +483,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JButton btnUser;
     private javax.swing.JPanel dashboardpanel;
     private javax.swing.JPanel historypanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -484,7 +503,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel mainpanel;
     private javax.swing.JPanel statuspanel;
