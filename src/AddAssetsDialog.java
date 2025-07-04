@@ -1,6 +1,8 @@
 
 import javax.swing.JOptionPane;
 import dao.DBConnection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class AddAssetsDialog extends javax.swing.JDialog {
@@ -9,15 +11,25 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+
+        btnDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                btnDelete();
+            }
+        });
+
+        btnUpdate.setEnabled(false);
+        btnSave.setEnabled(true);
+        btnDelete.setEnabled(false);
+
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblAssetstype = new javax.swing.JLabel();
         lblSerialno = new javax.swing.JLabel();
@@ -29,19 +41,21 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         txtPurchasedate = new javax.swing.JTextField();
         txtCurrentowner = new javax.swing.JTextField();
         txtDescription = new javax.swing.JTextField();
-        comboboxAssetstype = new javax.swing.JComboBox<>();
         btnSave = new javax.swing.JButton();
+        comboboxAssetstype = new javax.swing.JComboBox<>();
+        btnDelete = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         comboboxAction = new javax.swing.JComboBox<>();
+        btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Add Assets");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, 30));
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitle.setText("Add Assets");
+        jPanel1.add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, 30));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 890, 10));
 
         lblAssetstype.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -84,11 +98,6 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         txtDescription.setPreferredSize(new java.awt.Dimension(550, 40));
         jPanel1.add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, -1, -1));
 
-        comboboxAssetstype.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        comboboxAssetstype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laptop", "Desktop", "Phone", "Software", "Printer" }));
-        comboboxAssetstype.setPreferredSize(new java.awt.Dimension(550, 40));
-        jPanel1.add(comboboxAssetstype, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 550, -1));
-
         btnSave.setBackground(new java.awt.Color(51, 204, 0));
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
@@ -100,6 +109,18 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         });
         jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 560, -1, -1));
 
+        comboboxAssetstype.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        comboboxAssetstype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laptop", "Desktop", "Phone", "Software", "Printer" }));
+        comboboxAssetstype.setPreferredSize(new java.awt.Dimension(550, 40));
+        jPanel1.add(comboboxAssetstype, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 550, -1));
+
+        btnDelete.setBackground(new java.awt.Color(255, 102, 51));
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setText("Delete");
+        btnDelete.setPreferredSize(new java.awt.Dimension(86, 32));
+        jPanel1.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 560, 90, 34));
+
         btnCancel.setBackground(new java.awt.Color(255, 0, 0));
         btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
@@ -109,20 +130,29 @@ public class AddAssetsDialog extends javax.swing.JDialog {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 560, -1, -1));
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 560, -1, -1));
 
         comboboxAction.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboboxAction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Assigned", "Unassigned", "Maintenance", "Retired" }));
         comboboxAction.setPreferredSize(new java.awt.Dimension(550, 40));
         jPanel1.add(comboboxAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 550, -1));
 
+        btnUpdate.setBackground(new java.awt.Color(0, 0, 153));
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 560, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 595, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,40 +175,130 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         String action = comboboxAction.getSelectedItem().toString();
         String current_owner = txtCurrentowner.getText();
         String description = txtDescription.getText();
-        
-        if(serial_no.isEmpty() || purchase_date.isEmpty() ){
+
+        if (serial_no.isEmpty() || purchase_date.isEmpty()) {
             JOptionPane.showMessageDialog(this, "all fields are required");
             return;
         }
-        
-        try{
+
+        try {
             Connection conn = DBConnection.getConnection();
             String sql = "INSERT INTO assets_detail (assets_type, serial_no, purchase_date, action , current_owner , description) VALUES(?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1,assets_type);
-            pst.setString(2,serial_no);
-            pst.setString(3,purchase_date);
-            pst.setString(4,action);
-            pst.setString(5,current_owner);
-            pst.setString(6,description);
-            
+            pst.setString(1, assets_type);
+            pst.setString(2, serial_no);
+            pst.setString(3, purchase_date);
+            pst.setString(4, action);
+            pst.setString(5, current_owner);
+            pst.setString(6, description);
+
             int rows = pst.executeUpdate();
-            
+
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "Assets added successfully!");
                 this.dispose();
-               }
-            
-            
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this,e.getMessage());
-        }
-        
-    }//GEN-LAST:event_btnSaveActionPerformed
+            }
 
-   
-    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+    int assets_id = 0;
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        String type = comboboxAssetstype.getSelectedItem().toString();
+        String serial = txtSerialno.getText();
+        String purchase = txtPurchasedate.getText();
+        String action = comboboxAction.getSelectedItem().toString();
+        String owner = txtCurrentowner.getText();
+        String desc = txtDescription.getText();
+
+        if (assets_id == 0) {
+            JOptionPane.showMessageDialog(this, "No asset selected for update.");
+            return;
+        }
+
+        if (type.isEmpty() || serial.isEmpty() || purchase.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all required fields.");
+            return;
+        }
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "UPDATE assets_detail SET assets_type=?, serial_no=?, purchase_date=?, action=?, current_owner=?, description=? WHERE assets_id=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, type);
+            ps.setString(2, serial);
+            ps.setString(3, purchase);
+            ps.setString(4, action);
+            ps.setString(5, owner);
+            ps.setString(6, desc);
+            ps.setInt(7, assets_id);
+
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "Asset updated successfully!");
+                this.dispose(); // Close the dialog
+            } else {
+                JOptionPane.showMessageDialog(this, "Update failed.");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    public void loadAssetsData(int assets_id, String assets_type, String serial_no, String purchase_date,
+            String action, String current_owner, String description) {
+        this.assets_id = assets_id;
+        comboboxAssetstype.setSelectedItem(assets_type);
+        txtSerialno.setText(serial_no);
+        txtPurchasedate.setText(purchase_date);
+        comboboxAction.setSelectedItem(action);
+        txtCurrentowner.setText(current_owner);
+        txtDescription.setText(description);
+
+        lblTitle.setText("Update Assets");
+        btnSave.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+
+    }
+
+    private void btnDelete() {
+        if (assets_id == 0) {
+            JOptionPane.showMessageDialog(this, "No asset selected for deletion.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this asset?", "Confirm", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "DELETE FROM assets_detail WHERE assets_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, assets_id);
+
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "Asset deleted successfully!");
+                this.dispose(); // Close the dialog
+            } else {
+                JOptionPane.showMessageDialog(this, "Asset not found or could not be deleted.");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error deleting asset: " + e.getMessage());
+        }
+    }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -196,10 +316,11 @@ public class AddAssetsDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> comboboxAction;
     private javax.swing.JComboBox<String> comboboxAssetstype;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAction;
@@ -208,6 +329,7 @@ public class AddAssetsDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblPurchasedatr;
     private javax.swing.JLabel lblSerialno;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JTextField txtCurrentowner;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtPurchasedate;
