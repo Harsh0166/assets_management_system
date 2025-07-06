@@ -10,19 +10,35 @@ import javax.swing.table.TableCellRenderer;
 
 public class home extends javax.swing.JFrame {
 
+    private dashboardpage dashboard;
+
     public home() {
         initComponents();
         setLocationRelativeTo(null);
 
-        dashboardpage dashboard = new dashboardpage(
-                lblTotalUsers, lblTotalAssets, lblAssignedAssets,
-                lblUnassignedAssets, lblMaintenanceAssets
+//        dashboard connection
+        dashboard = new dashboardpage(
+                lblTotalUsers, lblTotalAssets,
+                lblAssignedAssets, lblUnassignedAssets,
+                lblMaintenanceAssets
         );
         dashboard.loadDashboardStats();
 
-        tabPanel.setUI(null); // This hides the tab headers
-        loadusertable();
-        loadassetstable();
+//        userpage connection
+        userpage.loadUserTable(userTable);
+
+//        add user dialog box connection
+        btnAdduser.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                AddUserDialog dialog = new AddUserDialog(home.this, true);
+                dialog.setVisible(true);
+                userpage.loadUserTable(userTable);
+                dashboard.loadDashboardStats();
+            }
+        });
+
+//        tabPanel.setUI(null); // This hides the tab headers
+        assetspage.loadassetstable(assetsTable);
 
         assetsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -46,7 +62,7 @@ public class home extends javax.swing.JFrame {
                         dialog.loadAssetsData(assets_id, assets_type, serial_no, purchase_date, action, current_owner, description);
                         dialog.setVisible(true);
 
-                        loadassetstable(); // Refresh table after editing
+                        assetspage.loadassetstable(assetsTable); // Refresh table after editing
                     }
                 }
             }
@@ -54,19 +70,13 @@ public class home extends javax.swing.JFrame {
 
         assetsTable.getColumn("Operation").setCellRenderer(new ButtonRenderer());
 
-        btnAdduser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                AddUserDialog dialog = new AddUserDialog(home.this, true);
-                dialog.setVisible(true);
-                loadusertable(); // Refresh user table after dialog closes
-            }
-        }
-        );
         btnAddassets.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 AddAssetsDialog dialog = new AddAssetsDialog(home.this, true);
                 dialog.setVisible(true);
-                loadassetstable(); // Refresh user table after dialog closes
+                assetspage.loadassetstable(assetsTable); // Refresh user table after dialog closes
+                dashboard.loadDashboardStats();
+
             }
         }
         );
@@ -396,7 +406,7 @@ public class home extends javax.swing.JFrame {
         userTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(userTable);
 
-        userpanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 1080, 650));
+        userpanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 1070, 640));
 
         tabPanel.addTab("User Management", userpanel);
 
@@ -501,58 +511,6 @@ public class home extends javax.swing.JFrame {
                 new home().setVisible(true);
             }
         });
-    }
-
-    public void loadusertable() {
-        try {
-            Connection conn = DBConnection.getConnection();
-            String sql = "SELECT user_id, name, department, email, phone, status FROM user_detail";
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            DefaultTableModel model = (DefaultTableModel) userTable.getModel();
-            model.setRowCount(0);
-
-            while (rs.next()) {
-                int user_id = rs.getInt("user_id");
-                String name = rs.getString("name");
-                String dept = rs.getString("department");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                String status = rs.getString("status");
-                model.addRow(new Object[]{user_id, name, dept, email, phone, status});
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
-    }
-
-    public void loadassetstable() {
-        try {
-            Connection conn = DBConnection.getConnection();
-            String sql = "SELECT assets_id, assets_type, serial_no,purchase_date,action,current_owner,description FROM assets_detail";
-
-            PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-
-            DefaultTableModel model = (DefaultTableModel) assetsTable.getModel();
-            model.setRowCount(0);
-
-            while (rs.next()) {
-                int assets_id = rs.getInt("assets_id");
-                String assets_type = rs.getString("assets_type");
-                String serial_no = rs.getString("serial_no");
-                String purchase_date = rs.getString("purchase_date");
-                String action = rs.getString("action");
-                String current_owner = rs.getString("current_owner");
-                String description = rs.getString("description");
-                model.addRow(new Object[]{assets_id, assets_type, serial_no, purchase_date, action, current_owner, description, "Edit"});
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
