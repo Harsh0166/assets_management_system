@@ -61,6 +61,9 @@ public class home extends javax.swing.JFrame {
         );
 
         assets_history.loadAssignedAssetsHistory(assetshistoryTable);
+        
+        complaintpage.loadComplaints(complaintsTable); // Pass the table
+
 
         btnDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,7 +87,7 @@ public class home extends javax.swing.JFrame {
                 tabPanel.setSelectedIndex(3); // Assets history tab
             }
         });
-        btnAssetsSta.addActionListener(new java.awt.event.ActionListener() {
+        btnAssetsService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tabPanel.setSelectedIndex(4); // Assets status tab
             }
@@ -107,7 +110,7 @@ public class home extends javax.swing.JFrame {
         btnUser = new javax.swing.JButton();
         btnAssetsMan = new javax.swing.JButton();
         btnAssetsHis = new javax.swing.JButton();
-        btnAssetsSta = new javax.swing.JButton();
+        btnAssetsService = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         mainpanel = new javax.swing.JPanel();
         tabPanel = new javax.swing.JTabbedPane();
@@ -144,7 +147,8 @@ public class home extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         assetshistoryTable = new javax.swing.JTable();
         statuspanel = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        complaintsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -185,9 +189,9 @@ public class home extends javax.swing.JFrame {
         btnAssetsHis.setText("Assets History");
         jPanel1.add(btnAssetsHis, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 202, -1));
 
-        btnAssetsSta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnAssetsSta.setText("Assets Status");
-        jPanel1.add(btnAssetsSta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 202, -1));
+        btnAssetsService.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAssetsService.setText("Assets Service");
+        jPanel1.add(btnAssetsService, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 202, -1));
 
         btnLogout.setBackground(new java.awt.Color(255, 0, 0));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -478,30 +482,30 @@ public class home extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(assetshistoryTable);
 
-        historypanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1060, 700));
+        historypanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1060, 690));
 
         tabPanel.addTab("Assets History", historypanel);
 
-        jLabel7.setText("status");
+        statuspanel.setBackground(new java.awt.Color(255, 255, 255));
+        statuspanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout statuspanelLayout = new javax.swing.GroupLayout(statuspanel);
-        statuspanel.setLayout(statuspanelLayout);
-        statuspanelLayout.setHorizontalGroup(
-            statuspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statuspanelLayout.createSequentialGroup()
-                .addGap(338, 338, 338)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(745, Short.MAX_VALUE))
-        );
-        statuspanelLayout.setVerticalGroup(
-            statuspanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statuspanelLayout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addComponent(jLabel7)
-                .addContainerGap(580, Short.MAX_VALUE))
-        );
+        complaintsTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        complaintsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Complaint Id", "User Id", "Assets Id", "Assets Type", "Serial No.", "Complaint", "Status", "Submitted Date", "Action"
+            }
+        ));
+        jScrollPane4.setViewportView(complaintsTable);
 
-        tabPanel.addTab("Assets Status", statuspanel);
+        statuspanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 15, 1080, 690));
+
+        tabPanel.addTab("Assets Service", statuspanel);
 
         mainpanel.add(tabPanel, "card2");
 
@@ -546,10 +550,11 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JButton btnAdduser;
     private javax.swing.JButton btnAssetsHis;
     private javax.swing.JButton btnAssetsMan;
-    private javax.swing.JButton btnAssetsSta;
+    private javax.swing.JButton btnAssetsService;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnUser;
+    private javax.swing.JTable complaintsTable;
     private javax.swing.JPanel dashboardpanel;
     private javax.swing.JPanel historypanel;
     private javax.swing.JLabel jLabel1;
@@ -560,7 +565,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -572,6 +576,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblAssignedAssets;
     private javax.swing.JLabel lblMaintenanceAssets;
     private javax.swing.JLabel lblTotalAssets;

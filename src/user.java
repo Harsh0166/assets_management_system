@@ -3,19 +3,21 @@ import java.sql.*;
 import dao.DBConnection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class user extends javax.swing.JFrame {
 
     private String userId;
+
     public user(String userId) {
         initComponents();
         setLocationRelativeTo(null);
-        
+
 //        this.userId = userId;
-         loadUserData(userId);
-         
-         
+        loadUserData(userId);
+
         btnDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tabPanel.setSelectedIndex(0); // Dashboard tab
@@ -28,10 +30,14 @@ public class user extends javax.swing.JFrame {
             }
         });
 
-        
-        
+        btnNeedhelp.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                tabPanel.setSelectedIndex(1);
+                populateNeedHelpForm(userId); // Auto-fill when tab is opened
+            }
+        });
+
     }
-   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -69,13 +75,13 @@ public class user extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtUserid = new javax.swing.JTextField();
+        txtType = new javax.swing.JTextField();
+        txtSerialno = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        txtComplaint = new javax.swing.JTextArea();
+        btnSubmit = new javax.swing.JButton();
+        comboAssetsid = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -262,30 +268,43 @@ public class user extends javax.swing.JFrame {
         jLabel15.setText("Complaint");
         jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, -1, -1));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(550, 40));
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+        txtUserid.setEditable(false);
+        txtUserid.setBackground(new java.awt.Color(255, 255, 255));
+        txtUserid.setPreferredSize(new java.awt.Dimension(550, 40));
+        jPanel4.add(txtUserid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(550, 40));
-        jPanel4.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+        txtType.setEditable(false);
+        txtType.setBackground(new java.awt.Color(255, 255, 255));
+        txtType.setPreferredSize(new java.awt.Dimension(550, 40));
+        jPanel4.add(txtType, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(550, 40));
-        jPanel4.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
+        txtSerialno.setEditable(false);
+        txtSerialno.setBackground(new java.awt.Color(255, 255, 255));
+        txtSerialno.setPreferredSize(new java.awt.Dimension(550, 40));
+        jPanel4.add(txtSerialno, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, -1));
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(550, 40));
-        jPanel4.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, -1));
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setPreferredSize(new java.awt.Dimension(550, 40));
-        jScrollPane1.setViewportView(jTextArea1);
+        txtComplaint.setColumns(20);
+        txtComplaint.setRows(5);
+        txtComplaint.setPreferredSize(new java.awt.Dimension(550, 40));
+        jScrollPane1.setViewportView(txtComplaint);
 
         jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 550, -1));
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Submit");
-        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 600, -1, -1));
+        btnSubmit.setBackground(new java.awt.Color(0, 204, 0));
+        btnSubmit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
+        btnSubmit.setText("Submit");
+        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 600, -1, -1));
+
+        comboAssetsid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        comboAssetsid.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboAssetsid.setPreferredSize(new java.awt.Dimension(550, 40));
+        jPanel4.add(comboAssetsid, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
 
         tabPanel.addTab("Need Help ?", jPanel4);
 
@@ -296,23 +315,60 @@ public class user extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-            int confirm = JOptionPane.showConfirmDialog(
+        int confirm = JOptionPane.showConfirmDialog(
                 user.this,
                 "Are you sure you want to logout?",
                 "Confirm Logout",
                 JOptionPane.YES_NO_OPTION
-            );
+        );
 
-            if (confirm == JOptionPane.YES_OPTION) {
-                dispose(); // Close user window
-                new Login().setVisible(true); // Open login window
-            }
-        
+        if (confirm == JOptionPane.YES_OPTION) {
+            dispose(); // Close user window
+            new Login().setVisible(true); // Open login window
+        }
+
 
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        // TODO add your handling code here:
+        
+        String userId = txtUserid.getText();
+        String assetId = comboAssetsid.getSelectedItem().toString();
+        String assetType = txtType.getText();
+        String serialNo = txtSerialno.getText();
+        String complaint = txtComplaint.getText();
+
+        if (userId.isEmpty() || assetId.isEmpty() || complaint.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all required fields.");
+            return;
+        }
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "INSERT INTO asset_complaints (user_id, asset_id, asset_type, serial_no, complaint) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, userId);
+            ps.setString(2, assetId);
+            ps.setString(3, assetType);
+            ps.setString(4, serialNo);
+            ps.setString(5, complaint);
+
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(null, "Complaint submitted successfully!");
+//                txtComplaint.setText(""); // clear complaint field
+            } else {
+                JOptionPane.showMessageDialog(null, "Submission failed. Try again.");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
     
-    
+    }//GEN-LAST:event_btnSubmitActionPerformed
+
     private void loadUserData(String userId) {
         try {
             Connection conn = DBConnection.getConnection();
@@ -359,6 +415,66 @@ public class user extends javax.swing.JFrame {
         }
     }
 
+    public void populateNeedHelpForm(String userId) {
+    try {
+        Connection conn = DBConnection.getConnection();
+
+        txtUserid.setText(userId);
+
+        // Clear combo box before adding
+        comboAssetsid.removeAllItems();
+
+        // Map to store asset info based on asset_id
+        Map<String, String[]> assetInfoMap = new HashMap<>();
+
+        String sql = """
+            SELECT ad.assets_id, ad.assets_type, ad.serial_no
+            FROM assets_detail ad
+            JOIN assets_history ah ON ad.assets_id = ah.assets_id
+            WHERE ah.user_id = ? AND ah.action = 'Assigned'
+            ORDER BY ah.date DESC
+        """;
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, userId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            String assetId = rs.getString("assets_id");
+            String type = rs.getString("assets_type");
+            String serial = rs.getString("serial_no");
+
+            comboAssetsid.addItem(assetId);
+            assetInfoMap.put(assetId, new String[]{type, serial});
+        }
+
+        conn.close();
+
+        // Add selection listener
+        comboAssetsid.addActionListener(e -> {
+            String selectedId = (String) comboAssetsid.getSelectedItem();
+            if (selectedId != null && assetInfoMap.containsKey(selectedId)) {
+                String[] info = assetInfoMap.get(selectedId);
+                txtType.setText(info[0]);
+                txtSerialno.setText(info[1]);
+            }
+        });
+
+        // Trigger default selection
+        if (comboAssetsid.getItemCount() > 0) {
+            comboAssetsid.setSelectedIndex(0);
+        } else {
+            txtType.setText("-");
+            txtSerialno.setText("-");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+}
+
+    
+
 //    public static void main(String args[]) {
 //
 //        java.awt.EventQueue.invokeLater(new Runnable() {
@@ -372,7 +488,8 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNeedhelp;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSubmit;
+    private javax.swing.JComboBox<String> comboAssetsid;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -393,11 +510,6 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblAssetsid;
     private javax.swing.JLabel lblAssetstype;
     private javax.swing.JLabel lblDept;
@@ -408,5 +520,9 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JLabel lblUserid;
     private javax.swing.JPanel panelDashboard;
     private javax.swing.JTabbedPane tabPanel;
+    private javax.swing.JTextArea txtComplaint;
+    private javax.swing.JTextField txtSerialno;
+    private javax.swing.JTextField txtType;
+    private javax.swing.JTextField txtUserid;
     // End of variables declaration//GEN-END:variables
 }
