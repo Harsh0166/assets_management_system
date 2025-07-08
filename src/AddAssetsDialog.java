@@ -12,6 +12,16 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
 
+        comboboxAction.addActionListener(e -> {
+            String action = comboboxAction.getSelectedItem().toString();
+            if (action.equalsIgnoreCase("Unassigned")) {
+                txtCurrentowner.setText("");  // clear field
+                txtCurrentowner.setEnabled(false); // disable field
+            } else {
+                txtCurrentowner.setEnabled(true); // enable if not unassigned
+            }
+        });
+
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 btnDelete();
@@ -180,11 +190,16 @@ public class AddAssetsDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "all fields are required");
             return;
         }
+        // Only check current owner if action is not "Unassigned"
+        if (!action.equalsIgnoreCase("Unassigned") && current_owner.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Current Owner is required for this action.");
+            return;
+        }
 
         try {
             Connection conn = DBConnection.getConnection();
             String sql = "INSERT INTO assets_detail (assets_type, serial_no, purchase_date, action , current_owner , description) VALUES(?,?,?,?,?,?)";
-            PreparedStatement pst = conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, assets_type);
             pst.setString(2, serial_no);
             pst.setString(3, purchase_date);
@@ -195,6 +210,23 @@ public class AddAssetsDialog extends javax.swing.JDialog {
             int rows = pst.executeUpdate();
 
             if (rows > 0) {
+                if (action.equalsIgnoreCase("Assigned") || action.equalsIgnoreCase("Maintenance") || action.equalsIgnoreCase("Retired")) {
+                    // Get the newly inserted asset ID (auto-increment)
+                    ResultSet generatedKeys = pst.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        int insertedAssetId = generatedKeys.getInt(1);
+
+                        // Insert into history
+                        String historySql = "INSERT INTO assets_history (assets_id, user_id, action, date, note) VALUES (?, ?, ?, NOW(), ?)";
+                        PreparedStatement historyPs = conn.prepareStatement(historySql);
+                        historyPs.setInt(1, insertedAssetId);
+                        historyPs.setInt(2, Integer.parseInt(current_owner));  // assuming current_owner is user_id
+                        historyPs.setString(3, action);
+                        historyPs.setString(4, "Asset assigned during creation");
+                        historyPs.executeUpdate();
+                    }
+                }
+
                 JOptionPane.showMessageDialog(this, "Assets added successfully!");
                 this.dispose();
             }
@@ -224,6 +256,11 @@ public class AddAssetsDialog extends javax.swing.JDialog {
             return;
         }
 
+        if ((action.equalsIgnoreCase("Assigned") || action.equalsIgnoreCase("Maintenance") || action.equalsIgnoreCase("Retired")) && owner.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Current owner is required for selected action.");
+            return;
+        }
+
         try {
             Connection conn = DBConnection.getConnection();
             String sql = "UPDATE assets_detail SET assets_type=?, serial_no=?, purchase_date=?, action=?, current_owner=?, description=? WHERE assets_id=?";
@@ -238,10 +275,19 @@ public class AddAssetsDialog extends javax.swing.JDialog {
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
+                // Insert history record after successful update
+                if (action.equalsIgnoreCase("Assigned") || action.equalsIgnoreCase("Maintenance") || action.equalsIgnoreCase("Retired")) {
+                    String historySql = "INSERT INTO assets_history (assets_id, user_id, action, date, note) VALUES (?, ?, ?, NOW(), ?)";
+                    PreparedStatement historyPs = conn.prepareStatement(historySql);
+                    historyPs.setInt(1, assets_id); // make sure you have asset_id accessible here
+                    historyPs.setInt(2, Integer.parseInt(owner));
+                    historyPs.setString(3, action);
+                    historyPs.setString(4, "Asset updated and assigned");
+                    historyPs.executeUpdate();
+                }
+
                 JOptionPane.showMessageDialog(this, "Asset updated successfully!");
                 this.dispose(); // Close the dialog
-            } else {
-                JOptionPane.showMessageDialog(this, "Update failed.");
             }
 
             conn.close();

@@ -140,6 +140,7 @@ public class Login extends javax.swing.JFrame {
 
             if (rs.next()) {
                 String role = rs.getString("status");
+                String userId = rs.getString("user_id");
 
                 if (role.equalsIgnoreCase("admin")) {
                     // open admin page
@@ -150,8 +151,8 @@ public class Login extends javax.swing.JFrame {
                 else if (role.equalsIgnoreCase("user")) {
                     // open user page
                     JOptionPane.showMessageDialog(this, "Welcome User!");
-//                    new userDashboard().setVisible(true);
-//                    this.setVisible(false);
+                    new user(userId).setVisible(true);
+                    this.setVisible(false);
                 }
             }
             else {

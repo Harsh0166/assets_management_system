@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import javax.swing.BorderFactory;
+import javax.swing.border.LineBorder;
 
 public class AddUserDialog extends javax.swing.JDialog {
 
@@ -46,8 +47,7 @@ public class AddUserDialog extends javax.swing.JDialog {
         btnCancel.setFocusPainted(false);
 
         Font commonFont = new Font("Segoe UI", Font.PLAIN, 14);
-        Dimension fieldSize = new Dimension(300, 30); 
-
+        Dimension fieldSize = new Dimension(300, 30);
 
         txtName.setFont(commonFont);
         txtName.setPreferredSize(fieldSize);
@@ -72,6 +72,15 @@ public class AddUserDialog extends javax.swing.JDialog {
         comboBoxStatus.setFont(commonFont);
         comboBoxStatus.setPreferredSize(fieldSize);
 
+        btnDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                btnDelete();
+            }
+        });
+
+        btnUpdate.setEnabled(false);
+        btnSave.setEnabled(true);
+        btnDelete.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -80,7 +89,7 @@ public class AddUserDialog extends javax.swing.JDialog {
 
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
@@ -107,10 +116,10 @@ public class AddUserDialog extends javax.swing.JDialog {
         jPanel1.setMinimumSize(new java.awt.Dimension(600, 439));
         jPanel1.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Add User");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(240, 10, 104, 32);
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitle.setText("Add User");
+        jPanel1.add(lblTitle);
+        lblTitle.setBounds(240, 10, 140, 32);
         jPanel1.add(jSeparator1);
         jSeparator1.setBounds(0, 50, 600, 10);
 
@@ -216,6 +225,11 @@ public class AddUserDialog extends javax.swing.JDialog {
         btnUpdate.setMaximumSize(new java.awt.Dimension(90, 32));
         btnUpdate.setMinimumSize(new java.awt.Dimension(90, 32));
         btnUpdate.setPreferredSize(new java.awt.Dimension(90, 32));
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnUpdate);
         btnUpdate.setBounds(110, 550, 100, 32);
 
@@ -286,6 +300,106 @@ public class AddUserDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    int user_id = 0;
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        String name = txtName.getText();
+        String dept = txtDept.getText();
+        String email = txtEmail.getText();
+        String phone = txtPhone.getText();
+        String password = txtPassword.getText();
+        String status = comboBoxStatus.getSelectedItem().toString();
+
+        if (user_id == 0) {
+            JOptionPane.showMessageDialog(this, "No user selected for update.");
+            return;
+        }
+
+        if (name.isEmpty() || dept.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all required fields.");
+            return;
+        }
+
+//        if ((action.equalsIgnoreCase("Assigned") || action.equalsIgnoreCase("Maintenance") || action.equalsIgnoreCase("Retired")) && owner.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Current owner is required for selected action.");
+//            return;
+//        }
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "UPDATE user_detail SET name=?, department=?, email=?, phone=?, password=?, status=? WHERE user_id=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, dept);
+            ps.setString(3, email);
+            ps.setString(4, phone);
+            ps.setString(5, password);
+            ps.setString(6, status);
+            ps.setInt(7, user_id);
+
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "User updated successfully!");
+                this.dispose(); // Close the dialog
+            } else {
+                JOptionPane.showMessageDialog(this, "Update failed.");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    public void loadUserData(int user_id, String name, String department, String email, String phone, String password, String status) {
+        this.user_id = user_id;
+        txtName.setText(name);
+        txtDept.setText(department);
+        txtEmail.setText(email);
+        txtPhone.setText(phone);
+        txtPassword.setText(password);
+        comboBoxStatus.setSelectedItem(status);
+
+        lblTitle.setText("Update User");
+        btnSave.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+        txtPassword.setEnabled(false);
+        txtPassword.setBorder(new LineBorder(Color.LIGHT_GRAY));
+
+    }
+
+    private void btnDelete() {
+        if (user_id == 0) {
+            JOptionPane.showMessageDialog(this, "No user selected for deletion.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this user?", "Confirm", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "DELETE FROM user_detail WHERE user_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, user_id);
+
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(this, "User deleted successfully!");
+                this.dispose(); // Close the dialog
+            } else {
+                JOptionPane.showMessageDialog(this, "User not found or could not be deleted.");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error deleting user: " + e.getMessage());
+        }
+    }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -308,7 +422,6 @@ public class AddUserDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> comboBoxStatus;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblDept;
@@ -317,6 +430,7 @@ public class AddUserDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JTextField txtDept;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;

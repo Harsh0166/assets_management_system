@@ -16,16 +16,21 @@ public class home extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+//        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizes the window
+//        setVisible(true);
+
 //        dashboard connection
         dashboard = new dashboardpage(
                 lblTotalUsers, lblTotalAssets,
                 lblAssignedAssets, lblUnassignedAssets,
-                lblMaintenanceAssets
+                lblMaintenanceAssets, txtRetiredassets
         );
         dashboard.loadDashboardStats();
 
 //        userpage connection
         userpage.loadUserTable(userTable);
+        userpage.UserEditBtn(userTable, this);
+        userTable.getColumn("Operation").setCellRenderer(new ButtonRenderer());
 
 //        add user dialog box connection
         btnAdduser.addActionListener(new ActionListener() {
@@ -38,38 +43,12 @@ public class home extends javax.swing.JFrame {
         });
 
 //        tabPanel.setUI(null); // This hides the tab headers
+//        assets connection
         assetspage.loadassetstable(assetsTable);
-
-        assetsTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int column = assetsTable.getColumnModel().getColumnIndex("Operation");
-                int row = assetsTable.rowAtPoint(evt.getPoint());
-
-                // Check if clicked column is the "Operation" column
-                if (column == assetsTable.columnAtPoint(evt.getPoint())) {
-                    if (assetsTable.getValueAt(row, column).equals("Edit")) {
-                        // Get asset details from selected row
-                        int assets_id = (int) assetsTable.getValueAt(row, 0);
-                        String assets_type = (String) assetsTable.getValueAt(row, 1);
-                        String serial_no = (String) assetsTable.getValueAt(row, 2);
-                        String purchase_date = (String) assetsTable.getValueAt(row, 3);
-                        String action = (String) assetsTable.getValueAt(row, 4);
-                        String current_owner = (String) assetsTable.getValueAt(row, 5);
-                        String description = (String) assetsTable.getValueAt(row, 6);
-
-                        // Open dialog and pass values
-                        AddAssetsDialog dialog = new AddAssetsDialog(null, true);
-                        dialog.loadAssetsData(assets_id, assets_type, serial_no, purchase_date, action, current_owner, description);
-                        dialog.setVisible(true);
-
-                        assetspage.loadassetstable(assetsTable); // Refresh table after editing
-                    }
-                }
-            }
-        });
-
+        assetspage.assetseditbtn(assetsTable, this);
         assetsTable.getColumn("Operation").setCellRenderer(new ButtonRenderer());
 
+//        add assets dialog box connection
         btnAddassets.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 AddAssetsDialog dialog = new AddAssetsDialog(home.this, true);
@@ -80,6 +59,8 @@ public class home extends javax.swing.JFrame {
             }
         }
         );
+
+        assets_history.loadAssignedAssetsHistory(assetshistoryTable);
 
         btnDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,20 +76,24 @@ public class home extends javax.swing.JFrame {
 
         btnAssetsMan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tabPanel.setSelectedIndex(2); // User Management tab
+                tabPanel.setSelectedIndex(2); // Assets Management tab
             }
         });
         btnAssetsHis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tabPanel.setSelectedIndex(3); // User Management tab
+                tabPanel.setSelectedIndex(3); // Assets history tab
             }
         });
         btnAssetsSta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tabPanel.setSelectedIndex(4); // User Management tab
+                tabPanel.setSelectedIndex(4); // Assets status tab
             }
         });
 
+    }
+
+    public void refreshDashboard() {
+        dashboard.loadDashboardStats();
     }
 
     @SuppressWarnings("unchecked")
@@ -142,6 +127,9 @@ public class home extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         lblUnassignedAssets = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        txtRetiredassets = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         userpanel = new javax.swing.JPanel();
         topBtnPanel = new javax.swing.JPanel();
         btnAdduser = new javax.swing.JButton();
@@ -154,7 +142,7 @@ public class home extends javax.swing.JFrame {
         assetsTable = new javax.swing.JTable();
         historypanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        assetshistoryTable = new javax.swing.JTable();
         statuspanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -169,12 +157,12 @@ public class home extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Assets Management");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 22, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Users.png"))); // NOI18N
         jLabel2.setText("Admin");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 72, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, -1));
 
         btnDashboard.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDashboard.setText("Dashboard");
@@ -201,8 +189,15 @@ public class home extends javax.swing.JFrame {
         btnAssetsSta.setText("Assets Status");
         jPanel1.add(btnAssetsSta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 202, -1));
 
+        btnLogout.setBackground(new java.awt.Color(255, 0, 0));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
         btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 202, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -228,11 +223,11 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(lblTotalUsers))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jLabel11)))
+                        .addComponent(jLabel11))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(lblTotalUsers)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -242,10 +237,10 @@ public class home extends javax.swing.JFrame {
                 .addComponent(lblTotalUsers)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        dashboardpanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
+        dashboardpanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, 110));
 
         jPanel7.setPreferredSize(new java.awt.Dimension(250, 100));
 
@@ -262,11 +257,11 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(lblTotalAssets))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(jLabel12)))
+                        .addComponent(jLabel12))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(lblTotalAssets)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -276,10 +271,10 @@ public class home extends javax.swing.JFrame {
                 .addComponent(lblTotalAssets)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        dashboardpanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
+        dashboardpanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, 110));
 
         jPanel8.setPreferredSize(new java.awt.Dimension(250, 100));
 
@@ -296,24 +291,24 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(lblAssignedAssets))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jLabel13)))
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(lblAssignedAssets)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(lblAssignedAssets, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        dashboardpanel.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
+        dashboardpanel.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 100, -1, 110));
 
         jPanel9.setPreferredSize(new java.awt.Dimension(250, 100));
 
@@ -330,11 +325,11 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(lblMaintenanceAssets))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
-                        .addComponent(jLabel14)))
+                        .addComponent(jLabel14))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(lblMaintenanceAssets)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -344,10 +339,10 @@ public class home extends javax.swing.JFrame {
                 .addComponent(lblMaintenanceAssets)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        dashboardpanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, -1, -1));
+        dashboardpanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, -1, 110));
 
         lblUnassignedAssets.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblUnassignedAssets.setText("0");
@@ -360,13 +355,13 @@ public class home extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(lblUnassignedAssets, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addComponent(lblUnassignedAssets)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,10 +370,41 @@ public class home extends javax.swing.JFrame {
                 .addComponent(lblUnassignedAssets)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        dashboardpanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 100, 250, 100));
+        dashboardpanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 250, 110));
+
+        txtRetiredassets.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        txtRetiredassets.setText("0");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setText("Retired Assets");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(42, 42, 42))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(txtRetiredassets)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(txtRetiredassets, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        dashboardpanel.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 280, 250, 110));
 
         tabPanel.addTab("Dashboard", dashboardpanel);
 
@@ -399,7 +425,7 @@ public class home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "User ID", "Name", "Department", "Email", "Phone", "Status", "Operation"
+                "User Id", "Name", "Department", "Email", "Phone", "Status", "Operation"
             }
         ));
         userTable.setRowHeight(30);
@@ -418,14 +444,9 @@ public class home extends javax.swing.JFrame {
 
         btnAddassets.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAddassets.setText("Add Assets");
-        btnAddassets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddassetsActionPerformed(evt);
-            }
-        });
         jPanel2.add(btnAddassets, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        assetspanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 50));
+        assetspanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 150, 50));
 
         assetsTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         assetsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -437,30 +458,27 @@ public class home extends javax.swing.JFrame {
             }
         ));
         assetsTable.setRowHeight(30);
-        assetsTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                assetsTableMouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(assetsTable);
 
-        assetspanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 66, 1070, 640));
+        assetspanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 1070, 640));
 
         tabPanel.addTab("Assets Management", assetspanel);
 
+        historypanel.setBackground(new java.awt.Color(255, 255, 255));
         historypanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        assetshistoryTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        assetshistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Assets Id", "Employee Id", "Action", "Date", "Note"
+                "Id", "Assets Id", "User Id", "Action", "Date", "Note"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(assetshistoryTable);
 
-        historypanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1078, 700));
+        historypanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1060, 700));
 
         tabPanel.addTab("Assets History", historypanel);
 
@@ -496,14 +514,20 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUserActionPerformed
 
-    private void assetsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_assetsTableMouseClicked
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
+                    int confirm = JOptionPane.showConfirmDialog(
+                home.this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION
+            );
 
-    }//GEN-LAST:event_assetsTableMouseClicked
-
-    private void btnAddassetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddassetsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddassetsActionPerformed
+            if (confirm == JOptionPane.YES_OPTION) {
+                dispose(); // Close user window
+                new Login().setVisible(true); // Open login window
+            }
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -513,22 +537,10 @@ public class home extends javax.swing.JFrame {
         });
     }
 
-    class ButtonRenderer extends JButton implements TableCellRenderer {
-
-        public ButtonRenderer() {
-            setOpaque(true);
-        }
-
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
-            setText((value == null) ? "Edit" : value.toString());
-            return this;
-        }
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable assetsTable;
+    private javax.swing.JTable assetshistoryTable;
     private javax.swing.JPanel assetspanel;
     private javax.swing.JButton btnAddassets;
     private javax.swing.JButton btnAdduser;
@@ -547,10 +559,12 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -558,7 +572,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblAssignedAssets;
     private javax.swing.JLabel lblMaintenanceAssets;
     private javax.swing.JLabel lblTotalAssets;
@@ -568,6 +581,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel statuspanel;
     private javax.swing.JTabbedPane tabPanel;
     private javax.swing.JPanel topBtnPanel;
+    private javax.swing.JLabel txtRetiredassets;
     private javax.swing.JTable userTable;
     private javax.swing.JPanel userpanel;
     // End of variables declaration//GEN-END:variables
