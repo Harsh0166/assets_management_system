@@ -23,13 +23,10 @@ import javax.swing.border.EmptyBorder;
 
 public class user extends javax.swing.JFrame {
 
-//    private String userId;
-//    private JPanel pnlUserinfo;
-//    private JPanel pnlAssets;
+
     public user(String userId) {
         initComponents();
         setLocationRelativeTo(null);
-//        setupUserDataPanel();
 
         pnlUserInfo.setLayout(new GridBagLayout());
         pnlAssets.setLayout(new GridBagLayout());
