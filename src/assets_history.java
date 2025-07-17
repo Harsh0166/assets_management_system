@@ -4,8 +4,6 @@ import java.sql.*;
 import dao.DBConnection;
 
 public class assets_history {
-
-    // Static method to load data into a given JTable
     public static void loadAssignedAssetsHistory(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Clear previous data

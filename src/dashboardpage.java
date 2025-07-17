@@ -21,7 +21,7 @@ public class dashboardpage {
         this.lblUnassignedAssets = lblUnassignedAssets;
         this.lblMaintenanceAssets = lblMaintenanceAssets;
         this.lblRetiredAssets = lblRetiredAssets;
-
+       
     }
 
     public void loadDashboardStats() {

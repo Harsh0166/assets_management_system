@@ -18,7 +18,7 @@ public class complaintpage {
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // make table read-only
+                return false; // make table read only
             }
         };
 
@@ -48,10 +48,10 @@ public class complaintpage {
             JOptionPane.showMessageDialog(null, "Error loading complaints: " + e.getMessage());
         }
 
-        // Set the Action column as a button
-        complaintsTable.getColumn("Action").setCellRenderer(new ButtonRenderer());
+        
+        complaintsTable.getColumn("Action").setCellRenderer(new complaintButtonRenderer());
 
-        // Handle button click
+        
         complaintsTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int row = complaintsTable.rowAtPoint(e.getPoint());
@@ -73,7 +73,7 @@ public class complaintpage {
 
                     if (newStatus != null && !newStatus.equals(currentStatus)) {
                         updateComplaintStatus(complaintId, newStatus);
-                        loadComplaints(complaintsTable); // Refresh table
+                        loadComplaints(complaintsTable); 
                     }
                 }
             }
@@ -104,9 +104,9 @@ public class complaintpage {
 
 }
 
-class ButtonRenderer extends JButton implements TableCellRenderer {
+class complaintButtonRenderer extends JButton implements TableCellRenderer {
 
-    public ButtonRenderer() {
+    public complaintButtonRenderer() {
         setOpaque(true);
     }
 

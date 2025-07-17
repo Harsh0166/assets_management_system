@@ -15,10 +15,10 @@ public class AddAssetsDialog extends javax.swing.JDialog {
         comboboxAction.addActionListener(e -> {
             String action = comboboxAction.getSelectedItem().toString();
             if (action.equalsIgnoreCase("Unassigned")) {
-                txtCurrentowner.setText("");  // clear field
-                txtCurrentowner.setEnabled(false); // disable field
+                txtCurrentowner.setText(""); 
+                txtCurrentowner.setEnabled(false);
             } else {
-                txtCurrentowner.setEnabled(true); // enable if not unassigned
+                txtCurrentowner.setEnabled(true); 
             }
         });
 
@@ -173,12 +173,12 @@ public class AddAssetsDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        
         String assets_type = comboboxAssetstype.getSelectedItem().toString();
         String serial_no = txtSerialno.getText();
         String purchase_date = txtPurchasedate.getText();
@@ -211,12 +211,12 @@ public class AddAssetsDialog extends javax.swing.JDialog {
 
             if (rows > 0) {
                 if (action.equalsIgnoreCase("Assigned") || action.equalsIgnoreCase("Maintenance") || action.equalsIgnoreCase("Retired")) {
-                    // Get the newly inserted asset ID (auto-increment)
+                    
                     ResultSet generatedKeys = pst.getGeneratedKeys();
                     if (generatedKeys.next()) {
                         int insertedAssetId = generatedKeys.getInt(1);
 
-                        // Insert into history
+                    
                         String historySql = "INSERT INTO assets_history (assets_id, user_id, action, date, note) VALUES (?, ?, ?, NOW(), ?)";
                         PreparedStatement historyPs = conn.prepareStatement(historySql);
                         historyPs.setInt(1, insertedAssetId);
@@ -238,7 +238,7 @@ public class AddAssetsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
     int assets_id = 0;
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        
         String type = comboboxAssetstype.getSelectedItem().toString();
         String serial = txtSerialno.getText();
         String purchase = txtPurchasedate.getText();
@@ -275,7 +275,7 @@ public class AddAssetsDialog extends javax.swing.JDialog {
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                // Insert history record after successful update
+                
                 if (action.equalsIgnoreCase("Assigned") || action.equalsIgnoreCase("Maintenance") || action.equalsIgnoreCase("Retired")) {
                     String historySql = "INSERT INTO assets_history (assets_id, user_id, action, date, note) VALUES (?, ?, ?, NOW(), ?)";
                     PreparedStatement historyPs = conn.prepareStatement(historySql);
@@ -287,7 +287,7 @@ public class AddAssetsDialog extends javax.swing.JDialog {
                 }
 
                 JOptionPane.showMessageDialog(this, "Asset updated successfully!");
-                this.dispose(); // Close the dialog
+                this.dispose();
             }
 
             conn.close();
@@ -334,7 +334,7 @@ public class AddAssetsDialog extends javax.swing.JDialog {
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "Asset deleted successfully!");
-                this.dispose(); // Close the dialog
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Asset not found or could not be deleted.");
             }

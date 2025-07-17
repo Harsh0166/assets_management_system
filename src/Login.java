@@ -113,7 +113,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        // TODO add your handling code here:
+        
         int a = JOptionPane.showConfirmDialog(null,"Do you want to close the application","Select",JOptionPane.YES_NO_OPTION);
         if (a==0){
             System.exit(0);
@@ -121,7 +121,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        
         String email = txtEmail.getText();
         String password = String.valueOf(txtPassword.getPassword());
 
@@ -143,13 +143,11 @@ public class Login extends javax.swing.JFrame {
                 String userId = rs.getString("user_id");
 
                 if (role.equalsIgnoreCase("admin")) {
-                    // open admin page
                     JOptionPane.showMessageDialog(this, "Welcome Admin!");
                     new home().setVisible(true);
                     this.setVisible(false);
                 }
                 else if (role.equalsIgnoreCase("user")) {
-                    // open user page
                     JOptionPane.showMessageDialog(this, "Welcome User!");
                     new user(userId).setVisible(true);
                     this.setVisible(false);

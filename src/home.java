@@ -16,8 +16,7 @@ public class home extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-//        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizes the window
-//        setVisible(true);
+
 
 //        dashboard connection
         dashboard = new dashboardpage(
@@ -27,11 +26,13 @@ public class home extends javax.swing.JFrame {
         );
         dashboard.loadDashboardStats();
 
+        
 //        userpage connection
         userpage.loadUserTable(userTable);
         userpage.UserEditBtn(userTable, this);
-        userTable.getColumn("Operation").setCellRenderer(new ButtonRenderer());
+        userTable.getColumn("Operation").setCellRenderer(new userButtonRenderer());
 
+        
 //        add user dialog box connection
         btnAdduser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -42,29 +43,35 @@ public class home extends javax.swing.JFrame {
             }
         });
 
-//        tabPanel.setUI(null); // This hides the tab headers
+
+
 //        assets connection
         assetspage.loadassetstable(assetsTable);
         assetspage.assetseditbtn(assetsTable, this);
-        assetsTable.getColumn("Operation").setCellRenderer(new ButtonRenderer());
+        assetsTable.getColumn("Operation").setCellRenderer(new assetsButtonRenderer());
 
 //        add assets dialog box connection
         btnAddassets.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 AddAssetsDialog dialog = new AddAssetsDialog(home.this, true);
                 dialog.setVisible(true);
-                assetspage.loadassetstable(assetsTable); // Refresh user table after dialog closes
+                assetspage.loadassetstable(assetsTable); 
                 dashboard.loadDashboardStats();
 
             }
         }
         );
 
-        assets_history.loadAssignedAssetsHistory(assetshistoryTable);
         
-        complaintpage.loadComplaints(complaintsTable); // Pass the table
+//        assets history page connection
+        assets_history.loadAssignedAssetsHistory(assetshistoryTable);
 
+        
+//        complaint page connection
+        complaintpage.loadComplaints(complaintsTable); 
 
+        
+        
         btnDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tabPanel.setSelectedIndex(0); // Dashboard tab
@@ -89,7 +96,7 @@ public class home extends javax.swing.JFrame {
         });
         btnAssetsService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tabPanel.setSelectedIndex(4); // Assets status tab
+                tabPanel.setSelectedIndex(4); // Assets servuce tab
             }
         });
 
@@ -174,11 +181,6 @@ public class home extends javax.swing.JFrame {
 
         btnUser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUser.setText("User Management");
-        btnUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUserActionPerformed(evt);
-            }
-        });
         jPanel1.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 202, -1));
 
         btnAssetsMan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -514,23 +516,19 @@ public class home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnUserActionPerformed
-
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
-                    int confirm = JOptionPane.showConfirmDialog(
+     
+        int confirm = JOptionPane.showConfirmDialog(
                 home.this,
                 "Are you sure you want to logout?",
                 "Confirm Logout",
                 JOptionPane.YES_NO_OPTION
-            );
+        );
 
-            if (confirm == JOptionPane.YES_OPTION) {
-                dispose(); // Close user window
-                new Login().setVisible(true); // Open login window
-            }
+        if (confirm == JOptionPane.YES_OPTION) {
+            dispose();
+            new Login().setVisible(true); 
+        }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     public static void main(String args[]) {

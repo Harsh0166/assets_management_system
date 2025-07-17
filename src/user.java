@@ -49,7 +49,7 @@ public class user extends javax.swing.JFrame {
         btnNeedhelp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 tabPanel.setSelectedIndex(1);
-                populateNeedHelpForm(userId); // Auto-fill when tab is opened
+                populateNeedHelpForm(userId);
             }
         });
 
@@ -62,23 +62,23 @@ public class user extends javax.swing.JFrame {
         pnlUserInfo.setBackground(new Color(245, 245, 245));
         pnlAssets.setBackground(new Color(245, 245, 245));
 
-        pnlUserInfo.setBorder(new EmptyBorder(20, 20, 10, 20)); // Less bottom padding
-        pnlAssets.setBorder(new EmptyBorder(10, 20, 20, 20));   // Less top padding
+        pnlUserInfo.setBorder(new EmptyBorder(20, 20, 10, 20)); 
+        pnlAssets.setBorder(new EmptyBorder(10, 20, 20, 20));   
 
-        // Container panel: vertically stacks user and asset panels
+        
         JPanel verticalContainer = new JPanel();
         verticalContainer.setLayout(new BoxLayout(verticalContainer, BoxLayout.Y_AXIS));
         verticalContainer.setBackground(new Color(245, 245, 245));
         verticalContainer.add(pnlUserInfo);
         verticalContainer.add(pnlAssets);
 
-        // Scrollable wrapper (in case content grows)
+        
         JScrollPane scrollPane = new JScrollPane(verticalContainer);
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        // Add to dashboard panel
+        
         panelDashboard.removeAll();
         panelDashboard.setLayout(new BorderLayout());
         panelDashboard.add(scrollPane, BorderLayout.CENTER);
@@ -254,7 +254,6 @@ public class user extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
         int confirm = JOptionPane.showConfirmDialog(
                 user.this,
                 "Are you sure you want to logout?",
@@ -263,15 +262,14 @@ public class user extends javax.swing.JFrame {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            dispose(); // Close user window
-            new Login().setVisible(true); // Open login window
+            dispose(); 
+            new Login().setVisible(true); 
         }
 
 
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-        // TODO add your handling code here:
 
         String userId = txtUserid.getText();
         String assetId = comboAssetsid.getSelectedItem().toString();
@@ -312,7 +310,7 @@ public class user extends javax.swing.JFrame {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Segoe UI", Font.BOLD, 14));
         label.setOpaque(true);
-        label.setBackground(new Color(41, 128, 185)); // Blue background
+        label.setBackground(new Color(41, 128, 185));
         label.setForeground(Color.WHITE);
         label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         return label;
@@ -423,11 +421,8 @@ public class user extends javax.swing.JFrame {
             Connection conn = DBConnection.getConnection();
 
             txtUserid.setText(userId);
-
-            // Clear combo box before adding
             comboAssetsid.removeAllItems();
-
-            // Map to store asset info based on asset_id
+            
             Map<String, String[]> assetInfoMap = new HashMap<>();
 
             String sql = """
@@ -453,7 +448,6 @@ public class user extends javax.swing.JFrame {
 
             conn.close();
 
-            // Add selection listener
             comboAssetsid.addActionListener(e -> {
                 String selectedId = (String) comboAssetsid.getSelectedItem();
                 if (selectedId != null && assetInfoMap.containsKey(selectedId)) {
@@ -463,7 +457,6 @@ public class user extends javax.swing.JFrame {
                 }
             });
 
-            // Trigger default selection
             if (comboAssetsid.getItemCount() > 0) {
                 comboAssetsid.setSelectedIndex(0);
             } else {

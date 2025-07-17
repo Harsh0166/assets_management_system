@@ -39,10 +39,10 @@ public class userpage {
                 int column = userTable.getColumnModel().getColumnIndex("Operation");
                 int row = userTable.rowAtPoint(evt.getPoint());
 
-                // Check if clicked column is the "Operation" column
+                
                 if (column == userTable.columnAtPoint(evt.getPoint())) {
                     if (userTable.getValueAt(row, column).equals("Edit")) {
-                        // Get asset details from selected row
+                        
                         int user_id = (int) userTable.getValueAt(row, 0);
                         String name = (String) userTable.getValueAt(row, 1);
                         String department = (String) userTable.getValueAt(row, 2);
@@ -56,7 +56,7 @@ public class userpage {
                         dialog.loadUserData(user_id, name, department, email, phone,"", status);
                         dialog.setVisible(true);
 
-                        userpage.loadUserTable(userTable); // Refresh table after editing
+                        userpage.loadUserTable(userTable);
                         parent.refreshDashboard();
                     }
                 }
@@ -65,9 +65,9 @@ public class userpage {
     }
     
 }
-class ButtonRenderer extends JButton implements TableCellRenderer {
+class userButtonRenderer extends JButton implements TableCellRenderer {
 
-    public ButtonRenderer() {
+    public userButtonRenderer() {
         setOpaque(true);
     }
 

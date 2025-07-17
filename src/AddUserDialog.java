@@ -260,12 +260,12 @@ public class AddUserDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+      
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+
         String name = txtName.getText();
         String dept = txtDept.getText();
         String email = txtEmail.getText();
@@ -293,7 +293,7 @@ public class AddUserDialog extends javax.swing.JDialog {
 
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "User added successfully!");
-                this.dispose(); // close the dialog
+                this.dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
@@ -302,7 +302,7 @@ public class AddUserDialog extends javax.swing.JDialog {
 
     int user_id = 0;
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+      
         String name = txtName.getText();
         String dept = txtDept.getText();
         String email = txtEmail.getText();
@@ -339,7 +339,7 @@ public class AddUserDialog extends javax.swing.JDialog {
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "User updated successfully!");
-                this.dispose(); // Close the dialog
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Update failed.");
             }
@@ -389,7 +389,7 @@ public class AddUserDialog extends javax.swing.JDialog {
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 JOptionPane.showMessageDialog(this, "User deleted successfully!");
-                this.dispose(); // Close the dialog
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "User not found or could not be deleted.");
             }

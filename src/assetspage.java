@@ -46,10 +46,10 @@ public class assetspage {
                 int column = assetsTable.getColumnModel().getColumnIndex("Operation");
                 int row = assetsTable.rowAtPoint(evt.getPoint());
 
-                // Check if clicked column is the "Operation" column
+               
                 if (column == assetsTable.columnAtPoint(evt.getPoint())) {
                     if (assetsTable.getValueAt(row, column).equals("Edit")) {
-                        // Get asset details from selected row
+                        
                         int assets_id = (int) assetsTable.getValueAt(row, 0);
                         String assets_type = (String) assetsTable.getValueAt(row, 1);
                         String serial_no = (String) assetsTable.getValueAt(row, 2);
@@ -58,12 +58,12 @@ public class assetspage {
                         String current_owner = (String) assetsTable.getValueAt(row, 5);
                         String description = (String) assetsTable.getValueAt(row, 6);
 
-                        // Open dialog and pass values
+                        
                         AddAssetsDialog dialog = new AddAssetsDialog(null, true);
                         dialog.loadAssetsData(assets_id, assets_type, serial_no, purchase_date, action, current_owner, description);
                         dialog.setVisible(true);
 
-                        assetspage.loadassetstable(assetsTable); // Refresh table after editing
+                        assetspage.loadassetstable(assetsTable); 
                         parent.refreshDashboard();
                     }
                 }
@@ -73,9 +73,9 @@ public class assetspage {
 
 }
 
-class ButtonRenderer extends JButton implements TableCellRenderer {
+class assetsButtonRenderer extends JButton implements TableCellRenderer {
 
-    public ButtonRenderer() {
+    public assetsButtonRenderer() {
         setOpaque(true);
     }
 
